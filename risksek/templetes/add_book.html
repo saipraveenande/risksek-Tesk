@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 50px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        input[type="file"] {
+            margin-bottom: 10px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        .submit {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit:hover {
+            background-color: #45a049;
+        }
+        .container form span{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Book</h2>
+        <!-- Form for adding a book -->
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Hidden input field for book ID -->
+            <input type="hidden" name="bookid" value="{{ book.id }}">
+            
+            <!-- Input fields for book information -->
+            <p>Title <span>*</span></p> <input type="text" name="title" placeholder="Title" required>
+            <p>Author <span>*</span></p> <input type="text" name="author" placeholder="Author" required>
+            <p>ISBN <span>*</span></p> <input type="number" name="isbn" placeholder="ISBN" required>
+            <p>File Format</p> <input type="text" name="format" placeholder="PDF/EPUB/MOBI">
+            
+            <!-- Submit button to add the book -->
+            <button type="submit" class="submit">Add Book</button>
+        </form>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Library</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+        }
+        header {
+            background-color: #333;
+            padding: 10px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .brand a{
+            color: darkcyan;
+            font-size: 1.5em;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+        .search-container{
+            display: flex;
+        }
+        .search-container input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 100%;
+            background: #f1f1f1;
+        }
+        .search-container button{
+            width: 20%;
+            padding: 10px;
+            background: darkcyan;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background: #0b7dda;
+        }
+
+        .add-button a{
+            color: #fff;
+            background-color: darkcyan;
+            padding: 10px 20px;
+            margin-left: 30px;
+            border: none;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        center{
+            font-size: 30px;
+            margin-top: 20px;
+            letter-spacing: 3px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 50px;
+        }
+        .book-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .book-card {
+            width: calc(33.33% - 2px);
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 10px;
+
+        }
+        .book-card h3{
+            margin: 7px 0;
+            font-size: 16px;
+        }
+        .book-card h5 span{
+            font-weight: 300;
+        }
+        .delete {
+            color: red; 
+            text-decoration: none;
+            font-size: 12px;
+            border: 1px solid red;
+            border-radius: 10px;
+            padding: 3px 7px;
+            float:right;
+          }
+          .delete:hover{
+            color: white;
+            background-color: red;
+            
+          }
+        /* Media query for responsiveness */
+        @media screen and (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-container {
+                margin: 10px 0;
+            }
+            .add-button {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body><!-- Header section -->
+    <header>
+        <!-- Navbar section -->
+        <div class="navbar">
+            <!-- Brand/logo section -->
+            <div class="brand"><a href="/">RISKSEK</a></div>
+            
+            <!-- Search form section -->
+            <form class="search-container" action="{% url 'library:search' %}" method='GET'>
+                {% csrf_token %}
+                <input type="text" placeholder="Search with book Title.." name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+            
+            <!-- Add Book button section -->
+            <div class="add-button"><a href="{% url 'library:addBook' %}">+ Add Book</a></div>
+        </div>
+    </header>
+    
+    <!-- Centered heading for available books -->
+    <center>Available Books</center>
+    
+    <!-- Main content container -->
+    <div class="container">
+    
+        <!-- Book container for displaying books -->
+        <div class="book-container">
+            <!-- Loop through each book -->
+            {% for book in books %}
+            <div class="book-card">
+                <h3>Title: {{ book.title }}</h3>
+                <small>ISBN: {{ book.isbn }}</small>
+                <h5><span>Written by</span> ~ {{ book.author }}</h5>
+                <!-- Delete button with a link to delete the book -->
+                <a href="/delete?bookid={{ book.id }}" class="delete">Delete</a>
+                <p>{{ book.format }}</p>
+            </div>
+            {% empty %}
+            <!-- Display message if no books found -->
+            <h3 style="color: grey;">No book found</h3>
+            {% endfor %}
+        </div>
+    </div>
+    
+</body>
+
+</html>
